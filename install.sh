@@ -24,7 +24,7 @@ wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
 sudo python2 get-pip.py
 export PATH=$PATH:/usr/local/bin
 sudo apt-get install python3-pip
-export PATH=$PATH:/usr/local/bin
+sudo apt-get install curl
 
 sudo apt install -y libcurl4-openssl-dev libxml2 libxml2-dev libxslt1-dev ruby-dev build-essential libgmp-dev zlib1g-dev
 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
@@ -32,7 +32,6 @@ sudo apt install -y libcurl4-openssl-dev
 sudo apt install -y python3-setuptools
 sudo apt install -y python3-dnspython
 sudo apt install -y libldns-dev
-sudo apt install -y python3-pip
 sudo apt install -y findutils
 sudo apt install -y python-pip
 sudo apt install -y libssl-dev
