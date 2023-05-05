@@ -396,7 +396,7 @@ report()
     <header class="post-header">
     </header>
     <div class="post-content clearfix" itemprop="articleBody">' >> ./$domain/$foldername/html_report.html
-    echo "<h3><a href='http://$server_ip:30200'>View screanshots Report</a></h3>" >> ./$domain/$foldername/html_report.html
+    echo "<h3><a href='http://$server_ip:30200'>Lihat Hasil Screenshot</a></h3>" >> ./$domain/$foldername/html_report.html
     echo "<h3>Dig Info</h3>
     <pre>
     $(dig $domain)
@@ -449,7 +449,7 @@ subd=${subreport[3]}
 fi
   clear
   tagline
-  echo "${green}Scan for $domain start${reset}" | notify -silent
+  echo "${green}Pengintaian $domain dimulai${reset}" | notify -silent
   if [ -d "./$domain" ]
   then
     echo "${red}This is a known target.${reset}"
@@ -487,7 +487,7 @@ fi
   dnsprobing $domain
   subdomain_takeover $domain
 	checkhttprobe $domain
-  screenshots $domain
+  #screenshots $domain
   getgau $domain
   get_interesting $domain
   if [[ -n "$brute" ]]; then 
@@ -510,9 +510,9 @@ fi
   fi
 
   report $domain
-  echo "${green}Validasi Keamanan dan Pengintaian terhadap $domain Telah selesai${reset}" | notify -silent
+  echo "${green}Pengintaian terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
-  echo "Scan selesai dalam : $(($duration / 60)) minutes and $(($duration % 60)) seconds." | notify -silent
+  echo "Pengintaian selesai dalam : $(($duration / 60)) minutes and $(($duration % 60)) seconds." | notify -silent
   cleantemp
     # Fungsi menonaktfikan Listen Server
   kill_listen_server
