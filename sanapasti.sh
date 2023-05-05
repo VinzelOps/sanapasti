@@ -21,11 +21,6 @@ paramspider=~/tools/ParamSpider/paramspider.py
 HTTPXCALL="httpx -silent -no-color -random-agent -ports 80,81,300,443,591,593,832,981,1010,1311,1099,2082,2095,2096,2480,3000,3128,3333,4243,4443,4444,4567,4711,4712,4993,5000,5104,5108,5280,5281,5601,5800,6543,7000,7001,7396,7474,8000,8001,8008,8014,8042,8060,8069,8080,8081,8083,8088,8090,8091,8095,8118,8123,8172,8181,8222,8243,8280,8281,8333,8337,8443,8444,8500,8800,8834,8880,8881,8888,8983,9000,9001,9043,9060,9080,9090,9091,9200,9443,9502,9800,9981,10000,10250,11371,12443,15672,16080,17778,18091,18092,20720,27201,32000,55440,55672"
 server_ip=$(curl -s ifconfig.me)
 
-red=`tput setaf 1`
-green=`tput setaf 2`
-yellow=`tput setaf 3`
-reset=`tput sgr0`
-
 SECONDS=0
 domain=
 subreport=
@@ -34,7 +29,7 @@ usage() {
   echo ""
   echo "Panduan Memulai Platform Validasi Keamanan dan Pengintaian Otomatis"
   echo ""
-  echo -e "Cara Pakai: sudo ./sanapasti.sh -d domain.com <opsi> 
+  echo -e "Cara Pakai: sudo ./sanapasti.sh -d [TLD] [opsi] 
   
   opsi:
     -a | --alt   : Hanya Permutasi Subdomain	
@@ -216,11 +211,11 @@ checkhttprobe(){
 }
 
 
-screenshots(){
-  echo "${green}Memulai melakukan screenshot ...${reset}"
-  gowitness file -f ./$domain/$foldername/subdomain_live.txt -P ./$domain/$foldername/screenshots/ --delay 5   -D ./$domain/$foldername/gowitness.sqlite3
-  echo "${green}[screenshot] selesai.${reset}"
-}
+#screenshots(){
+#  echo "${green}Memulai melakukan screenshot ...${reset}"
+#  gowitness file -f ./$domain/$foldername/subdomain_live.txt -P ./$domain/$foldername/screenshots/ --delay 5   -D ./$domain/$foldername/gowitness.sqlite3
+#  echo "${green}[screenshot] selesai.${reset}"
+#}
 
 
 getgau(){
@@ -256,6 +251,19 @@ NucleiScanner(){
     -t $HOME/nuclei-templates/vulnerabilities/ \
     -t $HOME/nuclei-templates/cnvd/ \
     -t $HOME/nuclei-templates/iot/ \
+    -t $HOME/nuclei-templates/cves/2000/ \
+    -t $HOME/nuclei-templates/cves/2001/ \
+    -t $HOME/nuclei-templates/cves/2002/ \
+    -t $HOME/nuclei-templates/cves/2004/ \
+    -t $HOME/nuclei-templates/cves/2005/ \
+    -t $HOME/nuclei-templates/cves/2006/ \
+    -t $HOME/nuclei-templates/cves/2007/ \
+    -t $HOME/nuclei-templates/cves/2008/ \
+    -t $HOME/nuclei-templates/cves/2009/ \
+    -t $HOME/nuclei-templates/cves/2010/ \
+    -t $HOME/nuclei-templates/cves/2011/ \
+    -t $HOME/nuclei-templates/cves/2012/ \
+    -t $HOME/nuclei-templates/cves/2013/ \
     -t $HOME/nuclei-templates/cves/2014/ \
     -t $HOME/nuclei-templates/cves/2015/ \
     -t $HOME/nuclei-templates/cves/2016/ \
@@ -273,6 +281,13 @@ NucleiScanner(){
     -t $HOME/nuclei-templates/default-logins/ \
     -t $HOME/nuclei-templates/exposures/ \
     -t $HOME/nuclei-templates/exposed-panels/ \
+    -t $HOME/nuclei-templates/extra_templates/ \
+    -t $HOME/nuclei-templates/headless/ \
+    -t $HOME/nuclei-templates/helpers/ \
+    -t $HOME/nuclei-templates/osint/ \
+    -t $HOME/nuclei-templates/ssl/ \
+    -t $HOME/nuclei-templates/technologies/ \
+    -t $HOME/nuclei-templates/workflows/ \
     -t $HOME/nuclei-templates/fuzzing/
 
   echo -e "${green}Selesai melakukan validasi keamanan${reset}"
@@ -396,7 +411,7 @@ report()
     <header class="post-header">
     </header>
     <div class="post-content clearfix" itemprop="articleBody">' >> ./$domain/$foldername/html_report.html
-    echo "<h3><a href='http://$server_ip:30200'>Lihat Hasil Screenshot</a></h3>" >> ./$domain/$foldername/html_report.html
+    echo "<h3><a href='http://$server_ip:30200'>Melihat laporan hasil screenshot</a></h3>" >> ./$domain/$foldername/html_report.html
     echo "<h3>Dig Info</h3>
     <pre>
     $(dig $domain)
@@ -449,10 +464,10 @@ subd=${subreport[3]}
 fi
   clear
   tagline
-  echo "${green}Pengintaian $domain dimulai${reset}" | notify -silent
+  echo "${green}Pengintaian pada domain $domain dimulai${reset}" | notify -silent
   if [ -d "./$domain" ]
   then
-    echo "${red}This is a known target.${reset}"
+    echo "${red}Berikut yang didapatkan.${reset}"
   else
     mkdir ./$domain
   fi
@@ -487,7 +502,7 @@ fi
   dnsprobing $domain
   subdomain_takeover $domain
 	checkhttprobe $domain
-  #screenshots $domain
+  screenshots $domain
   getgau $domain
   get_interesting $domain
   if [[ -n "$brute" ]]; then 
@@ -512,11 +527,11 @@ fi
   report $domain
   echo "${green}Pengintaian terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
-  echo "Pengintaian selesai dalam : $(($duration / 60)) minutes and $(($duration % 60)) seconds." | notify -silent
+  echo "Scan selesai dalam : $(($duration / 60)) menit and $(($duration % 60)) detik." | notify -silent
   cleantemp
     # Fungsi menonaktfikan Listen Server
   kill_listen_server
-  echo "${green}server screanshots start ${reset}"
+  echo "${green}Memulai screenshot ${reset}"
   cd ./$domain/$foldername/ &&  gowitness server -a $server_ip:30200
   stty sane
   tput sgr0
