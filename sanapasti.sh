@@ -358,11 +358,7 @@ notifikasi() {
 		if [[ -z "$NOTIFY_CONFIG" ]]; then
 			NOTIFY_CONFIG=~/.config/notify/provider-config.yaml
 		fi
-		if [ -n "$(find "${1}" -prune -size +8000000c)" ]; then
-    		printf '%s is larger than 8MB, sending over transfer.sh\n' "${1}"
-			transfer "${1}" | notify
-			return 0
-		fi
+		
 		if grep -q '^ telegram\|^telegram\|^    telegram' $NOTIFY_CONFIG ; then
 			notification "Sending ${domain} data over Telegram" info
 			telegram_chat_id=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_chat_id\|^telegram_chat_id\|^    telegram_chat_id' | xargs | cut -d' ' -f2)
