@@ -275,7 +275,7 @@ checkhttprobe(){
 
 getgau(){
   echo "${green}Mengambil url dari wayback,commoncrawl,otx,urlscan...${reset}"
-  cat ./$domain/$foldername/subdomain_live.txt | gau -b jpg,jpeg,gif,css,js,tif,tiff,png,ttf,woff,woff2,ico,svg,eot  | qsreplace -a | tee ./$domain/$foldername/gau_output.txt
+  cat ./$domain/$foldername/subdomain_live.txt | gau --blacklist jpg,jpeg,gif,css,js,tif,tiff,png,ttf,woff,woff2,ico,svg,eot  | qsreplace -a | tee ./$domain/$foldername/gau_output.txt
   echo "${green}gau selesai.${reset}"
   duration=$SECONDS
   echo "Pengecekan gau Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
@@ -608,6 +608,7 @@ fi
   mkdir ./$domain/$foldername
   mkdir ./$domain/$foldername/reports/
   mkdir ./$domain/$foldername/screenshots/
+  touch ./$domain/$foldername/cleantemp.txt
   touch ./$domain/$foldername/dorks.txt
   touch ./$domain/$foldername/crtsh.txt
   touch ./$domain/$foldername/shuffledns.txt
