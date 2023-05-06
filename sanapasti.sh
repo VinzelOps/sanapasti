@@ -582,10 +582,11 @@ report()
 #Fungsi untuk mengirimkan file zip
 
 cleantemp(){
-    rm ./$domain/$foldername/temp.txt
-    rm ./$domain/$foldername/tmp.txt
-    rm ./$domain/$foldername/cleantemp.txt
-    rm ./$domain/$foldername/cnames.txt
+    rm -rf ./$domain/$foldername/temp.txt
+    rm -rf ./$domain/$foldername/tmp.txt
+    rm -rf ./$domain/$foldername/cleantemp.txt
+    rm -rf ./$domain/$foldername/cnames.txt
+    rm -rf ./$domain/$foldername/dns_wordlist.txt
 }
 
 main(){
