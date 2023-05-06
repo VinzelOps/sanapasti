@@ -303,7 +303,7 @@ notification(){
 	fi
 }
 
-notifikasi {
+notifikasi() {
 	if [[ -z "$1" ]]; then
 		printf "\n${yellow} no file provided to send ${reset}\n"
 	else
