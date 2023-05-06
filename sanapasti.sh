@@ -191,7 +191,7 @@ mengintai(){
   echo "Pengintaian Subdomain dengan Assetfinder Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
   
   echo -e "${green}4.Mengintai dengan Dorks Hunter...${reset}"
-  python3 $tools/dorks_hunter/dorks_hunter.py -d $domain -o ./$domain/$foldername/dorks.txt
+  python3 $dorks_hunter -d $domain -o ./$domain/$foldername/dorks.txt
   duration=$SECONDS
   echo "Pengintaian dengan Dorks Hunter Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
