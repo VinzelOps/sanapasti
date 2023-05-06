@@ -596,7 +596,7 @@ fi
   dnsprobing $domain
   subdomain_takeover $domain
 	checkhttprobe $domain
-  screenshots $domain
+  #screenshots $domain
   getgau $domain
   get_interesting $domain
   if [[ -n "$brute" ]]; then 
