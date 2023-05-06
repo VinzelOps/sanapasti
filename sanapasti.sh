@@ -33,6 +33,7 @@ server_ip=$(curl -s ifconfig.me)
 SECONDS=0
 domain=
 subreport=
+NOTIFY="notify -silent"
 
 #Utilitasi Penggunaan Awal
 usage() { 
@@ -167,6 +168,8 @@ tagline() {
 #  /___, /_n_//_/|_//_n_//_/  /_n_//___,  /_/ /_/  ${reset}"
 }
 
+
+
 #Fungsi menjalankan pengintaian
 mengintai(){
   echo -e "${green}1.Mengintai Subdomain dengan crobat...${reset}"
@@ -277,7 +280,7 @@ get_interesting(){
 }
 
 zip_output(){
-  dir="./$domain/$foldername"
+  dir="./$domain"
   zip_name=`date +"%Y_%m_%d-%H.%M.%S"`
   zip_name="$zip_name"_"$domain.zip"
   (cd $dir && zip -r "$zip_name" .)
@@ -655,7 +658,8 @@ fi
   echo "Roger! Validasi Keamanan dan Pengintaian Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
   zip_output
   cleantemp
-    # Fungsi menonaktfikan Listen Server
+  
+# Fungsi menonaktfikan Listen Server
   kill_listen_server
 #  echo "${green}Memulai screenshot ${reset}"
 #  echo "${green}Untuk melihat GUI Screenshot silahkan buka link berikut http://$server_ip:30200 ${reset}" | notify -silent
