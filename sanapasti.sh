@@ -277,9 +277,10 @@ get_interesting(){
 }
 
 zip_output(){
-zip_name=`date +"%Y_%m_%d-%H.%M.%S"`
-zip_name="$zip_name"_"$domain.zip"
-(cd $dir && zip -r "$zip_name" .)
+  dir="./$domain"
+  zip_name=`date +"%Y_%m_%d-%H.%M.%S"`
+  zip_name="$zip_name"_"$domain.zip"
+  (cd $dir && zip -r "$zip_name" .)
 
 echo "Mengirimkan file "${dir}/${zip_name}""
 	if [ -s "${dir}/$zip_name" ]; then
