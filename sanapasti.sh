@@ -466,12 +466,6 @@ report()
 }
 
 #Fungsi untuk mengirimkan file zip
-zip_output() {
-  local domain=$1
-  local foldername=${subreport[2]}
-  zip -r ./$domain/$foldername/output.zip ./$domain/$foldername
-  notify -silent -t "Hasil Output: $domain" -f ./$domain/$foldername/output.zip
-}
 
 cleantemp(){
     rm ./$domain/$foldername/temp.txt
