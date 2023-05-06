@@ -171,14 +171,17 @@ tagline() {
 mengintai(){
   echo -e "${green}1.Mengintai Subdomain dengan crobat...${reset}"
   crobat -s $domain > ./$domain/$foldername/$domain.txt
+  duration=$SECONDS
   echo "Pengintaian Subdomain dengan Crobat Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 
   echo -e "${green}2.Mengintai Subdomain dengan subfinder...${reset}"
   subfinder -silent  -d $domain -all | sort -u >> ./$domain/$foldername/$domain.txt
+  duration=$SECONDS
   echo "Pengintaian Subdomain dengan Subfinder Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 
   echo -e "${green}3.Mengintai Subdomain dengan assetfinder...${reset}"
   assetfinder -subs-only $domain >> ./$domain/$foldername/$domain.txt
+  duration=$SECONDS
   echo "Pengintaian Subdomain dengan Assetfinder Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
@@ -187,7 +190,8 @@ searchcrtsh(){
   echo "${green}Mengecek http://crt.sh ${reset}"
  ~/tools/massdns/scripts/ct.py $domain 2>/dev/null > ./$domain/$foldername/tmp.txt
  [ -s ./$domain/$foldername/tmp.txt ] && cat ./$domain/$foldername/tmp.txt | ~/tools/massdns/bin/massdns -r ./$domain/$foldername/resolvers.txt -t A -q -o S -w  ./$domain/$foldername/crtsh.txt
- echo "Pengecekan Sertifikat SSL Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
+duration=$SECONDS
+echo "Pengecekan Sertifikat SSL Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 #Fungsi permutasi subdomain
@@ -195,6 +199,7 @@ permutatesubdomains(){
   echo "${green}Melakukan permutasi DNS...${reset}"
   cat ./$domain/$foldername/$domain.txt | dnsgen - | sort -u | tee ./$domain/$foldername/dnsgen.txt
   mv ./$domain/$foldername/dnsgen.txt ./$domain/$foldername/$domain.txt
+  duration=$SECONDS
   echo "Pengecekan Permutasi Subdomain Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
@@ -203,6 +208,7 @@ dnsprobing(){
   echo "${green}Melakukan pemeriksaan DNS...${reset}"
   cat ./$domain/$foldername/$domain.txt | sort -u |  shuffledns -d $domain -silent -r ./$domain/$foldername/resolvers.txt -o ./$domain/$foldername/shuffledns.txt 
   echo  "${yellow}Total dari $(wc -l ./$domain/$foldername/shuffledns.txt | awk '{print $1}') Subdomain aktif ditemukan${reset}"
+  duration=$SECONDS
   echo "Pengecekan DNS Probing Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
@@ -233,15 +239,17 @@ subdomain_takeover(){
   cat ./$domain/$foldername/cleantemp.txt | awk  '{print $1}' | while read line; do
   x="$line"
   echo "${x%?}" >> ./$domain/$foldername/alldomains.txt
+  duration=$SECONDS
+  echo "Pengecekan Subdomain Takeover Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
   done
   sleep 1
-  echo "Pengecekan Subdomain Takeover Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 
 checkhttprobe(){
   echo "${green} Berburu server web [httpx] Pengujian probe domain...${reset}"
   cat ./$domain/$foldername/$domain.txt | sort -u | $HTTPXCALL -o ./$domain/$foldername/subdomain_live.txt
+  duration=$SECONDS
   echo "Pengecekan Httprobing Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
@@ -257,12 +265,14 @@ getgau(){
   echo "${green}Mengambil url dari wayback,commoncrawl,otx,urlscan...${reset}"
   cat ./$domain/$foldername/subdomain_live.txt | gau -b jpg,jpeg,gif,css,js,tif,tiff,png,ttf,woff,woff2,ico,svg,eot  | qsreplace -a | tee ./$domain/$foldername/gau_output.txt
   echo "${green}gau selesai.${reset}"
+  duration=$SECONDS
   echo "Pengecekan gau Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 get_interesting(){
   echo "${green}Menemukan data yang tidak biasa...${reset}"
   cat ./$domain/$foldername/gau_output.txt | gf interestingEXT | grep -viE '(\.(js|css|svg|png|jpg|woff))' | qsreplace -a | httpx -mc 200 -silent | awk '{ print $1}' > ./$domain/$foldername/interesting.txt
+  duration=$SECONDS
   echo "Pengecekan Data Anomali Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
@@ -339,6 +349,7 @@ directory_bruteforce(){
     do  
     echo "${yellow} $sub ${reset}"
     ffuf -w $dirsearchWordlist -u $sub/FUZZ  -ac -mc 200 -s -sf  | tee ./$domain/$foldername/reports/$(echo  "$sub" | sed 's/\http\:\/\///g' |  sed 's/\https\:\/\///g').txt;
+    duration=$SECONDS
     echo "Pengecekan Direktori Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
   done;
 }
