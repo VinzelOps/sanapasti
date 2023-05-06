@@ -574,7 +574,6 @@ report()
     echo "<h3>Hasil Port Scanning Terbuka</h3>
     <pre> " >> ./$domain/$foldername/html_report.html
     naabu -host $domain -silent
-    </pre>" >> ./$domain/$foldername/html_report.html
     echo "</pre>
     </div></article></div>
     </div></div></body></html>" >> ./$domain/$foldername/html_report.html
