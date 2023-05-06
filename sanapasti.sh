@@ -544,6 +544,11 @@ report()
     [ -s ./$domain/$foldername/interesting.txt ] && echo "<tr><td><a href='./interesting.txt'>interestingEXT Urls</a></td></tr>" >> ./$domain/$foldername/html_report.html
     echo "</tbody></table>" >> ./$domain/$foldername/html_report.html
 
+    echo "</pre><div><h3>Hasil Google Dorking</h3></div>" >> ./$domain/$foldername/html_report.html
+    echo "<table><tbody>" >> ./$domain/$foldername/html_report.html
+    [ -s ./$domain/$foldername/dorks.txt ] && echo "<tr><td><a href='./interesting.txt'>Dorks Hunter</a></td></tr>" >> ./$domain/$foldername/html_report.html
+    echo "</tbody></table>" >> ./$domain/$foldername/html_report.html
+
 
     echo "<div><h3>Validasi Keamanan</h3></div>
     <table><tbody>
