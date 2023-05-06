@@ -152,6 +152,10 @@ sudo apt install -y libpcap-dev
 go install github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
 echo "Selesai!"
 
+echo "Menginstall tool gau"
+go install github.com/lc/gau/v2/cmd/gau@latest
+echo "Selesai!"
+
 echo "Menginstall tool unfurl"
 go install github.com/tomnomnom/unfurl@latest
 echo "Selesai!"
