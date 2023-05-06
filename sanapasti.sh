@@ -15,16 +15,26 @@ echo " ${sanapasti}                                                   by @vinzel
               
 ###############################################################################################################
 
+#Fungsi wordlist
 dirsearchWordlist=~/tools/SecLists/Discovery/Web-Content/dirsearch.txt
+
+#Fungsi tools feroxbuster
 feroxbuster=~/tools/feroxbuster
+
+#Fungsi penggunaan paramspider
 paramspider=~/tools/ParamSpider/paramspider.py
+
+#Fungsi melakukan Httprobing
 HTTPXCALL="httpx -silent -no-color -random-agent -ports 80,81,300,443,591,593,832,981,1010,1311,1099,2082,2095,2096,2480,3000,3128,3333,4243,4443,4444,4567,4711,4712,4993,5000,5104,5108,5280,5281,5601,5800,6543,7000,7001,7396,7474,8000,8001,8008,8014,8042,8060,8069,8080,8081,8083,8088,8090,8091,8095,8118,8123,8172,8181,8222,8243,8280,8281,8333,8337,8443,8444,8500,8800,8834,8880,8881,8888,8983,9000,9001,9043,9060,9080,9090,9091,9200,9443,9502,9800,9981,10000,10250,11371,12443,15672,16080,17778,18091,18092,20720,27201,32000,55440,55672"
+
+#Fungsi memanggil ip server
 server_ip=$(curl -s ifconfig.me)
 
 SECONDS=0
 domain=
 subreport=
 
+#Utilitasi Penggunaan Awal
 usage() { 
   echo ""
   echo "Panduan Memulai Platform Validasi Keamanan dan Pengintaian Otomatis"
@@ -42,6 +52,7 @@ usage() {
     -p | --pp    : Fuzzing kerentanan pada Polution" 1>&2; exit 1; 
 }
 
+#Fungsi pilihan awal
 display_rules() {
   echo ""
   echo "Rules:"
@@ -51,6 +62,7 @@ display_rules() {
   echo ""
 }
 
+#Fungsi memanggil menu
 display_menu() {
   echo "Menu:"
   echo "1. Tampilkan Help"
@@ -59,6 +71,7 @@ display_menu() {
   echo -n "Masukkan pilihan Anda (1-3): "
 }
 
+#Fungsi memilih menu
 menu() {
   while true; do
     display_menu
@@ -84,6 +97,7 @@ menu() {
   done
 }
 
+#Fungsi pengecekan penggunaan
 checkhelp(){
   while [ "$1" != "" ]; do
       case $1 in
@@ -93,6 +107,7 @@ checkhelp(){
   done
 }
 
+#Fungsi penyesuaian opsi
 checkargs(){
   while [ "$1" != "" ]; do
       case $1 in
@@ -126,12 +141,13 @@ if [ -z "${domain}" ]; then
    usage; exit 1;
 fi 
 
+#Fungsi mengunduh resolver
 downloader(){
   wget -q  https://raw.githubusercontent.com/kh4sh3i/Fresh-Resolvers/master/resolvers.txt  -O ./$domain/$foldername/resolvers.txt
   wget -q  https://gist.githubusercontent.com/jhaddix/86a06c5dc309d08580a018c66354a056/raw/96f4e51d96b2203f19f6381c8c545b278eaa0837/all.txt -O ./$domain/$foldername/dns_wordlist.txt
 }
 
-
+#Fungsi memulai listen server (untuk SSRF)
 oob_server(){
   echo -e "${green}Memulai Listen Server...${reset}"
   interactsh-client  -v &> ./$domain/$foldername/listen_server.txt & SERVER_PID=$!
@@ -141,6 +157,7 @@ oob_server(){
   echo "Listen server is up $LISTENSERVER with PID=$SERVER_PID"
 }
 
+#Fungsi kustomisasi logo
 tagline() {
   # Fungsi Memunculkan Logo
   echo -e "${yellow}
@@ -150,35 +167,43 @@ tagline() {
 #  /___, /_n_//_/|_//_n_//_/  /_n_//___,  /_/ /_/  ${reset}"
 }
 
+#Fungsi menjalankan pengintaian
 mengintai(){
   echo -e "${green}1.Mengintai Subdomain dengan crobat...${reset}"
   crobat -s $domain > ./$domain/$foldername/$domain.txt
+  echo "Pengintaian Subdomain dengan Crobat Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 
   echo -e "${green}2.Mengintai Subdomain dengan subfinder...${reset}"
-  subfinder -silent  -d $domain -all | sort -u >> ./$domain/$foldername/$domain.txt 
+  subfinder -silent  -d $domain -all | sort -u >> ./$domain/$foldername/$domain.txt
+  echo "Pengintaian Subdomain dengan Subfinder Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 
   echo -e "${green}3.Mengintai Subdomain dengan assetfinder...${reset}"
   assetfinder -subs-only $domain >> ./$domain/$foldername/$domain.txt
+  echo "Pengintaian Subdomain dengan Assetfinder Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
+#Fungsi pengecekan sertifikat SSL
 searchcrtsh(){
   echo "${green}Mengecek http://crt.sh ${reset}"
  ~/tools/massdns/scripts/ct.py $domain 2>/dev/null > ./$domain/$foldername/tmp.txt
  [ -s ./$domain/$foldername/tmp.txt ] && cat ./$domain/$foldername/tmp.txt | ~/tools/massdns/bin/massdns -r ./$domain/$foldername/resolvers.txt -t A -q -o S -w  ./$domain/$foldername/crtsh.txt
+ echo "Pengecekan Sertifikat SSL Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
-
+#Fungsi permutasi subdomain
 permutatesubdomains(){
   echo "${green}Melakukan permutasi DNS...${reset}"
   cat ./$domain/$foldername/$domain.txt | dnsgen - | sort -u | tee ./$domain/$foldername/dnsgen.txt
   mv ./$domain/$foldername/dnsgen.txt ./$domain/$foldername/$domain.txt
+  echo "Pengecekan Permutasi Subdomain Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
-
+#Fungsi melakukan DNS Probing
 dnsprobing(){
   echo "${green}Melakukan pemeriksaan DNS...${reset}"
   cat ./$domain/$foldername/$domain.txt | sort -u |  shuffledns -d $domain -silent -r ./$domain/$foldername/resolvers.txt -o ./$domain/$foldername/shuffledns.txt 
-  echo  "${yellow}Total dari $(wc -l ./$domain/$foldername/shuffledns.txt | awk '{print $1}') live subdomains were found${reset}"
+  echo  "${yellow}Total dari $(wc -l ./$domain/$foldername/shuffledns.txt | awk '{print $1}') Subdomain aktif ditemukan${reset}"
+  echo "Pengecekan DNS Probing Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 
@@ -210,12 +235,14 @@ subdomain_takeover(){
   echo "${x%?}" >> ./$domain/$foldername/alldomains.txt
   done
   sleep 1
+  echo "Pengecekan Subdomain Takeover Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 
 checkhttprobe(){
   echo "${green} Berburu server web [httpx] Pengujian probe domain...${reset}"
   cat ./$domain/$foldername/$domain.txt | sort -u | $HTTPXCALL -o ./$domain/$foldername/subdomain_live.txt
+  echo "Pengecekan Httprobing Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 
@@ -230,11 +257,13 @@ getgau(){
   echo "${green}Mengambil url dari wayback,commoncrawl,otx,urlscan...${reset}"
   cat ./$domain/$foldername/subdomain_live.txt | gau -b jpg,jpeg,gif,css,js,tif,tiff,png,ttf,woff,woff2,ico,svg,eot  | qsreplace -a | tee ./$domain/$foldername/gau_output.txt
   echo "${green}gau selesai.${reset}"
+  echo "Pengecekan gau Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 get_interesting(){
   echo "${green}Menemukan data yang tidak biasa...${reset}"
   cat ./$domain/$foldername/gau_output.txt | gf interestingEXT | grep -viE '(\.(js|css|svg|png|jpg|woff))' | qsreplace -a | httpx -mc 200 -silent | awk '{ print $1}' > ./$domain/$foldername/interesting.txt
+  echo "Pengecekan Data Anomali Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 
@@ -245,6 +274,7 @@ directory_bruteforce(){
     do  
     echo "${yellow} $sub ${reset}"
     ffuf -w $dirsearchWordlist -u $sub/FUZZ  -ac -mc 200 -s -sf  | tee ./$domain/$foldername/reports/$(echo  "$sub" | sed 's/\http\:\/\///g' |  sed 's/\https\:\/\///g').txt;
+    echo "Pengecekan Direktori Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
   done;
 }
 
@@ -299,7 +329,7 @@ NucleiScanner(){
     -t $HOME/nuclei-templates/fuzzing/
 
   echo -e "${green}Selesai melakukan validasi keamanan${reset}"
-  notify -bulk -data ./$domain/$foldername/nuclei.txt -silent
+#  notify -bulk -data ./$domain/$foldername/nuclei.txt -silent
 }
 
 
@@ -395,17 +425,17 @@ report()
     </tr>" >> ./$domain/$foldername/html_report.html
     done
     echo "</tbody></table>
-    <div><h3>Possible NS Takeovers</h3></div>
+    <div><h3>Kemungkinan Subdomain yang bisa diakuisisi</h3></div>
     <pre>" >> ./$domain/$foldername/html_report.html
     cat ./$domain/$foldername/domain_takeover.txt >> ./$domain/$foldername/html_report.html
 
-    echo "</pre><div><h3>Wayback data</h3></div>" >> ./$domain/$foldername/html_report.html
+    echo "</pre><div><h3>Data Terdahulu</h3></div>" >> ./$domain/$foldername/html_report.html
     echo "<table><tbody>" >> ./$domain/$foldername/html_report.html
     [ -s ./$domain/$foldername/interesting.txt ] && echo "<tr><td><a href='./interesting.txt'>interestingEXT Urls</a></td></tr>" >> ./$domain/$foldername/html_report.html
     echo "</tbody></table>" >> ./$domain/$foldername/html_report.html
 
 
-    echo "<div><h3>vuln scanner</h3></div>
+    echo "<div><h3>Pengecekan Kerentanan</h3></div>
     <table><tbody>
     <tr><td><a href='./nuclei.txt'>nuclei scanner</a></td></tr>
     <tr><td><a href='./xss_result.txt'>Xss vuln</a></td></tr>
@@ -521,7 +551,7 @@ fi
   report $domain
   echo "${green}Validasi keamanan terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
-  echo "Roger! Pengecekan Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
+  echo "Roger! Validasi Keamanan dan Pengintaian Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
   cleantemp
     # Fungsi menonaktfikan Listen Server
   kill_listen_server
