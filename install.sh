@@ -176,6 +176,13 @@ echo "Menginstall tool dalfox"
 go install github.com/hahwul/dalfox/v2@latest
 echo "Selesai!"
 
+echo "Menginstall tool Dorks Hunter"
+git clone https://github.com/six2dez/dorks_hunter
+cd dorks_hunter
+pip3 install -r requirements.txt
+cd ~/tools/
+echo "Selesai!"
+
 echo "Menginstall tool ParamSpider"
 git clone https://github.com/devanshbatham/ParamSpider
 cd ParamSpider
