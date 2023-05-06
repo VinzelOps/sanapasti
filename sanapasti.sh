@@ -314,6 +314,31 @@ notification(){
 	fi
 }
 
+transfer() { 
+	if [ $# -eq 0 ]; then 
+		echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2
+		return 1
+	fi
+	if tty -s; then 
+		file="$1"
+		file_name=$(basename "$file")
+		if [ ! -e "$file" ]; then 
+			echo "$file: No such file or directory">&2
+			return 1
+		fi
+		if [ -d "$file" ]; then
+			file_name="$file_name.zip"
+			(cd "$file"&&zip -r -q - .) | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
+		else 
+			cat "$file" | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
+		fi
+	else
+		file_name=$1
+		curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
+	fi
+}
+
+
 notifikasi() {
 	if [[ -z "$1" ]]; then
 		printf "\n${yellow} no file provided to send ${reset}\n"
@@ -321,7 +346,7 @@ notifikasi() {
 		if [[ -z "$NOTIFY_CONFIG" ]]; then
 			NOTIFY_CONFIG=~/.config/notify/provider-config.yaml
 		fi
-		if [ -n "$(find "${1}" -prune -size +8000000c)" ]; then
+		if [ -n "$(find "${1}" -prune -size +800000000c)" ]; then
     		printf '%s is larger than 8MB, sending over transfer.sh\n' "${1}"
 			transfer "${1}" | notify
 			return 0
@@ -546,10 +571,9 @@ report()
 
 cleantemp(){
     rm ./$domain/$foldername/temp.txt
-  	rm ./$domain/$foldername/tmp.txt
+    rm ./$domain/$foldername/tmp.txt
     rm ./$domain/$foldername/cleantemp.txt
     rm ./$domain/$foldername/cnames.txt
-    rm ./$domain/$foldername/xss_raw_result.txt
 }
 
 main(){
