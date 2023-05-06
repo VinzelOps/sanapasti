@@ -525,13 +525,14 @@ fi
   fi
 
   report $domain
-  echo "${green}Pengintaian terhadap $domain Telah selesai${reset}" | notify -silent
+  echo "${green}Validasi keamanan terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
   echo "Scan selesai dalam : $(($duration / 60)) menit and $(($duration % 60)) detik." | notify -silent
   cleantemp
     # Fungsi menonaktfikan Listen Server
   kill_listen_server
   echo "${green}Memulai screenshot ${reset}"
+  echo "${green}Untuk melihat GUI Screenshot silahkan buka link berikut http://$server_ip:30200 ${reset}" | notify -silent
   cd ./$domain/$foldername/ &&  gowitness server -a $server_ip:30200
   stty sane
   tput sgr0
