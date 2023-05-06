@@ -584,6 +584,7 @@ fi
   touch ./$domain/$foldername/sub_brute.txt
   touch ./$domain/$foldername/alldomains.txt
   touch ./$domain/$foldername/html_report.html
+  touch ./$domain/$foldername/subdomain_live.txt
   
   cleantemp
   downloader
