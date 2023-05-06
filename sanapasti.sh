@@ -551,11 +551,11 @@ report()
 
     echo "<div><h3>Validasi Keamanan</h3></div>
     <table><tbody>
-    <tr><td><a href='./nuclei.txt'>nuclei scanner</a></td></tr>
-    <tr><td><a href='./xss_result.txt'>Xss vuln</a></td></tr>
-    <tr><td><a href='./listen_server.txt'>OOB SSRF vuln</a></td></tr>
-    <tr><td><a href='./cors_result.txt'>CORS vuln</a></td></tr>
-    <tr><td><a href='./prototype_pollution_result.txt'>Prototype Pollution vuln</a></td></tr>
+    <tr><td><a href='./nuclei.txt'>Hasil Validasi Keamanan</a></td></tr>
+    <tr><td><a href='./xss_result.txt'>Hasil Validasi Kerentanan XSS</a></td></tr>
+    <tr><td><a href='./listen_server.txt'>Hasil Validasi Kerentanan SSRF</a></td></tr>
+    <tr><td><a href='./cors_result.txt'>Hasil Validasi Kerentanan CORS</a></td></tr>
+    <tr><td><a href='./prototype_pollution_result.txt'>Hasil Validasi Kerentanan Prototype Polution</a></td></tr>
     </tbody></table></div>" >> ./$domain/$foldername/html_report.html
 
     echo '</article><article class="post-container-right" itemscope="" itemtype="http://schema.org/BlogPosting">
@@ -574,6 +574,7 @@ report()
     echo "<h3>Hasil Port Scanning Terbuka</h3>
     <pre> " >> ./$domain/$foldername/html_report.html
     naabu -host $domain -silent
+    </pre>" >> ./$domain/$foldername/html_report.html
     echo "</pre>
     </div></article></div>
     </div></div></body></html>" >> ./$domain/$foldername/html_report.html
