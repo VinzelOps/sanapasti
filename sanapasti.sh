@@ -581,6 +581,7 @@ if [ -z "${domain}" ]; then
 domain=${subreport[1]}
 foldername=${subreport[2]}
 subd=${subreport[3]}
+
 fi
   clear
   tagline
@@ -643,7 +644,11 @@ fi
   if [[ -n "$prototype" ]]; then 
     Prototype_Pollution_Scanner $domain
   fi
-
+  NOW=$(date +"%F")
+  NOWT=$(date +"%T")
+  LOGFILE="${dir}/.log/${NOW}_${NOWT}.txt"
+  touch .log/${NOW}_${NOWT}.txt
+  echo "Start ${NOW} ${NOWT}" > "${LOGFILE}"
   report $domain
   echo "${green}Validasi keamanan terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
