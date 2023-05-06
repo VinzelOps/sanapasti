@@ -150,7 +150,7 @@ tagline() {
 #  /___, /_n_//_/|_//_n_//_/  /_n_//___,  /_/ /_/  ${reset}"
 }
 
-recon(){
+mengintai(){
   echo -e "${green}1.Mengintai Subdomain dengan crobat...${reset}"
   crobat -s $domain > ./$domain/$foldername/$domain.txt
 
@@ -488,7 +488,7 @@ fi
   cleantemp
   downloader
   oob_server
-  recon $domain
+  mengintai $domain
   searchcrtsh $domain
   if [[ -n "$alt" ]]; then 
     permutatesubdomains $domain
