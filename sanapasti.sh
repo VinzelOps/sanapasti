@@ -622,6 +622,7 @@ fi
   echo "${green}Validasi keamanan terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
   echo "Roger! Validasi Keamanan dan Pengintaian Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
+  zip_output
   cleantemp
     # Fungsi menonaktfikan Listen Server
   kill_listen_server
@@ -630,7 +631,6 @@ fi
 #  cd ./$domain/$foldername/ &&  gowitness server -a $server_ip:30200
   stty sane
   tput sgr0
-  zip_output
   exit 0
 }
 
