@@ -266,7 +266,72 @@ get_interesting(){
   echo "Pengecekan Data Anomali Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
+zip_output(){
+zip_name=`date +"%Y_%m_%d-%H.%M.%S"`
+zip_name="$zip_name"_"$domain.zip"
+(cd $dir && zip -r "$zip_name" .)
 
+echo "Mengirimkan file "${dir}/${zip_name}""
+	if [ -s "${dir}/$zip_name" ]; then
+		notifikasi "$dir/$zip_name"
+		rm -f "${dir}/$zip_name"
+	else
+		notification "No Zip file to send" warn
+	fi
+}
+
+notification(){
+	if [ -n "$1" ] && [ -n "$2" ]; then
+		case $2 in
+			info)
+				text="\n${bblue} ${1} ${reset}"
+				printf "${text}\n" && printf "${text} - ${domain}\n" | $NOTIFY
+			;;
+			warn)
+				text="\n${yellow} ${1} ${reset}"
+				printf "${text}\n" && printf "${text} - ${domain}\n" | $NOTIFY
+			;;
+			error)
+				text="\n${bred} ${1} ${reset}"
+				printf "${text}\n" && printf "${text} - ${domain}\n" | $NOTIFY
+			;;
+			good)
+				text="\n${bgreen} ${1} ${reset}"
+				printf "${text}\n" && printf "${text} - ${domain}\n" | $NOTIFY
+			;;
+		esac
+	fi
+}
+
+notifikasi {
+	if [[ -z "$1" ]]; then
+		printf "\n${yellow} no file provided to send ${reset}\n"
+	else
+		if [[ -z "$NOTIFY_CONFIG" ]]; then
+			NOTIFY_CONFIG=~/.config/notify/provider-config.yaml
+		fi
+		if [ -n "$(find "${1}" -prune -size +8000000c)" ]; then
+    		printf '%s is larger than 8MB, sending over transfer.sh\n' "${1}"
+			transfer "${1}" | notify
+			return 0
+		fi
+		if grep -q '^ telegram\|^telegram\|^    telegram' $NOTIFY_CONFIG ; then
+			notification "Sending ${domain} data over Telegram" info
+			telegram_chat_id=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_chat_id\|^telegram_chat_id\|^    telegram_chat_id' | xargs | cut -d' ' -f2)
+			telegram_key=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_api_key\|^telegram_api_key\|^    telegram_apikey' | xargs | cut -d' ' -f2 )
+			curl -F document=@${1} "https://api.telegram.org/bot${telegram_key}/sendDocument?chat_id=${telegram_chat_id}" 2>>"$LOGFILE" &>/dev/null
+		fi
+		if grep -q '^ discord\|^discord\|^    discord' $NOTIFY_CONFIG ; then
+			notification "Sending ${domain} data over Discord" info
+			discord_url=$(cat ${NOTIFY_CONFIG} | grep '^ discord_webhook_url\|^discord_webhook_url\|^    discord_webhook_url' | xargs | cut -d' ' -f2)
+			curl -v -i -H "Accept: application/json" -H "Content-Type: multipart/form-data" -X POST -F file1=@${1} $discord_url 2>>"$LOGFILE" &>/dev/null
+		fi
+		if [[ -n "$slack_channel" ]] && [[ -n "$slack_auth" ]]; then
+			notification "Sending ${domain} data over Slack" info
+			curl -F file=@${1} -F "initial_comment=reconftw zip file" -F channels=${slack_channel} -H "Authorization: Bearer ${slack_auth}" https://slack.com/api/files.upload 2>>"$LOGFILE" &>/dev/null
+		fi
+	fi
+}
 
 directory_bruteforce(){
   echo -e "${green}Memulai melakukan bruteforce penyimpanan dengan FFUF...${reset}"
