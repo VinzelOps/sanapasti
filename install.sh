@@ -118,6 +118,7 @@ echo "Menginstall tool massdns"
 git clone https://github.com/blechschmidt/massdns.git
 cd ~/tools/massdns
 make
+sudo make install
 cd ~/tools/
 echo "Selesai!"
 
