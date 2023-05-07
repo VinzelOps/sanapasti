@@ -281,7 +281,7 @@ getgau(){
   cat ./$domain/$foldername/subdomain_live.txt | gau --blacklist jpg,jpeg,gif,css,js,tif,tiff,png,ttf,woff,woff2,ico,svg,eot  | qsreplace -a | tee ./$domain/$foldername/gau_output.txt
   echo "${green}gau selesai.${reset}"
   duration=$SECONDS
-  echo "Pengecekan gau Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
+  echo "Pengecekan Data terdahulu Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
 get_interesting(){
