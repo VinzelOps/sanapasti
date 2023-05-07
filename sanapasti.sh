@@ -37,7 +37,10 @@ SECONDS=0
 domain=
 subreport=
 NOTIFY="notify -silent"
-
+NOW=$(date +"%F")
+NOWT=$(date +"%T")
+LOGFILE="${dir}/.log/${NOW}_${NOWT}.txt"
+  
 #Utilitasi Penggunaan Awal
 usage() { 
   echo ""
@@ -660,17 +663,15 @@ fi
   if [[ -n "$prototype" ]]; then 
     Prototype_Pollution_Scanner $domain
   fi
-  NOW=$(date +"%F")
-  NOWT=$(date +"%T")
-  LOGFILE="${dir}/.log/${NOW}_${NOWT}.txt"
+
   touch .log/${NOW}_${NOWT}.txt
   echo "Start ${NOW} ${NOWT}" > "${LOGFILE}"
   report $domain
   echo "${green}Validasi keamanan terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
   echo "Roger! Validasi Keamanan dan Pengintaian Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
-  zip_output
   cleantemp
+  zip_output
   
 # Fungsi menonaktfikan Listen Server
   kill_listen_server
