@@ -78,18 +78,26 @@ fi
 mkdir ~/tools
 cd ~/tools/
 
+
+#Fungsi Menginstall Tool Crobat
 echo "Menginstall tool crobat"
 go install  github.com/cgboal/sonarsearch/cmd/crobat@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool subfinder
 echo "Menginstall tool subfinder"
 go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool assetfinder
 echo "Menginstall tool assetfinder"
 go install  github.com/tomnomnom/assetfinder@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool dnsgen
 echo "Menginstall tool dnsgen"
 git clone https://github.com/ProjectAnte/dnsgen
 cd dnsgen
@@ -98,10 +106,14 @@ sudo python3 setup.py install
 cd ~/tools/
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool shuffledns
 echo "Menginstall tool shuffledns"
 go install  github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool massdns
 echo "Menginstall tool massdns"
 git clone https://github.com/blechschmidt/massdns.git
 cd ~/tools/massdns
@@ -109,30 +121,44 @@ make
 cd ~/tools/
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool gowitness
 echo "Menginstall tool gowitness"
 go install github.com/sensepost/gowitness@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool waybackurls
 echo "Menginstall tool waybackurls"
 go install github.com/tomnomnom/waybackurls@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool httpx
 echo "Menginstall tool httpx"
 go install github.com/projectdiscovery/httpx/cmd/httpx@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool feroxbuster
 echo "Menginstall tool feroxbuster"
 curl -sL https://raw.githubusercontent.com/epi052/feroxbuster/master/install-nix.sh | bash
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool ffuf
 echo "Menginstall tool ffuf"
 go install github.com/ffuf/ffuf@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool gf
 echo "Menginstall tool gf"
 go install github.com/tomnomnom/gf@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool gf-patterns
 echo "Menginstall tool  Gf-Patterns"
 mkdir .gf
 sudo cp -r $GOPATH/pkg/mod/github.com/tomnomnom/gf*/examples/ ~/.gf
@@ -141,45 +167,66 @@ sudo mv ~/tools/Gf-Patterns/*.json ~/.gf
 echo "Selesai!"
 
 
+#Fungsi Menginstall Tool sqlmap
 echo "Menginstall tool sqlmap"
 git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev
 cd ~/tools/
 echo "Selesai!"
 
 
+#Fungsi Menginstall Tool naabu
 echo "Menginstall tool naabu"
 sudo apt install -y libpcap-dev
 go install github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool gau
 echo "Menginstall tool gau"
 go install github.com/lc/gau/v2/cmd/gau@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool unfurl
 echo "Menginstall tool unfurl"
 go install github.com/tomnomnom/unfurl@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool notify
 echo "Menginstall tool notify"
 go install github.com/projectdiscovery/notify/cmd/notify@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool nuclei
 echo "Menginstall tool nuclei"
 go install  github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+
+#Fungsi menambahkan templates
+nuclei
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool corsme
 echo "Menginstall tool CorsMe"
 go install github.com/shivangx01b/CorsMe@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool ppmap
 echo "Menginstall tool ppmap"
 go install github.com/kleiton0x00/ppmap@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool dalfox
 echo "Menginstall tool dalfox"
 go install github.com/hahwul/dalfox/v2@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool dorks hunter
 echo "Menginstall tool Dorks Hunter"
 git clone https://github.com/six2dez/dorks_hunter
 cd dorks_hunter
@@ -187,6 +234,8 @@ pip3 install -r requirements.txt
 cd ~/tools/
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool paramspider
 echo "Menginstall tool ParamSpider"
 git clone https://github.com/devanshbatham/ParamSpider
 cd ParamSpider
@@ -194,25 +243,37 @@ pip3 install -r requirements.txt
 cd ~/tools/
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool qsreplace
 echo "Menginstall tool qsreplace"
 go install github.com/tomnomnom/qsreplace@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool interactsh
 echo "Menginstall tool interactsh"
 go install  github.com/projectdiscovery/interactsh/cmd/interactsh-client@latest
 echo "Selesai!"
 
+
+#Fungsi Menginstall Tool direktori seclists
 echo "Mengunduh direktori Seclists"
 cd ~/tools/
 git clone https://github.com/danielmiessler/SecLists.git
 cd ~/tools/SecLists/Discovery/DNS/
 
+
+#Fungsi Menginstall Tool dns-jhaddix
 cat dns-Jhaddix.txt | head -n -14 > clean-jhaddix-dns.txt
 cd ~/tools/
 echo "Selesai!"
 
+
+#Fungsi Menginstall library python
 sudo pip3 install urllib3==1.23
 sudo pip3 install requests
 
-echo -e "\n\n\n\n\n\n\n\n\n\n\nBerhasil! Semua Tools dan Library telah terinstall dan diperbarui, ~/tools"
+
+#Fungsi Menampilkan semua tools dan library telah terunduh dan diperbarui
+echo -e "\n\n\n\n\n\n\n\n\n\n\nBerhasil! Semua Tools dan Library telah terunduh dan diperbarui, ~/tools"
 ls -la
