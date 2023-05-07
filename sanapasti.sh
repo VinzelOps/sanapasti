@@ -296,8 +296,9 @@ zip_output(){
   dir="./$domain"
   zip_name=`date +"%Y_%m_%d-%H.%M.%S"`
   zip_name="$zip_name"_"$domain.zip"
-  (cd $dir && zip -r "$zip_name" .)
-
+#  (cd $dir && zip -r "$zip_name" .)
+  cd $SCRIPTPATH && zip -r $zip_name $dir &>/dev/null
+  
 echo "Mengirimkan file "${dir}/${zip_name}""
 	if [ -s "${dir}/$zip_name" ]; then
 		notifikasi "$dir/$zip_name"
@@ -371,7 +372,7 @@ notifikasi() {
 			notification "Mengirimkan file zip ${domain} ke Bot Telegram" info
 			telegram_chat_id=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_chat_id\|^telegram_chat_id\|^    telegram_chat_id' | xargs | cut -d' ' -f2)
 			telegram_key=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_api_key\|^telegram_api_key\|^    telegram_apikey' | xargs | cut -d' ' -f2 )
-			curl -F document=@${1} "https://api.telegram.org/bot${telegram_key}/sendDocument?chat_id=${telegram_chat_id}" 
+			curl -F document=@${1} "https://api.telegram.org/bot${telegram_key}/sendDocument?chat_id=${telegram_chat_id}" &>/dev/null
 		fi
 	fi
 }
