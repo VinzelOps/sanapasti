@@ -572,9 +572,9 @@ report()
     $(host $domain)
     </pre>" >> ./$domain/$foldername/html_report.html
     echo "<h3>Hasil Port Scanning Terbuka</h3>
-    <pre> " >> ./$domain/$foldername/html_report.html
+    <pre>
     naabu -host $domain -silent
-    echo "</pre>
+    </pre>" >> ./$domain/$foldername/html_report.html
     </div></article></div>
     </div></div></body></html>" >> ./$domain/$foldername/html_report.html
 }
