@@ -546,7 +546,7 @@ report()
 
     echo "</pre><div><h3>Hasil Google Dorking</h3></div>" >> ./$domain/$foldername/html_report.html
     echo "<table><tbody>" >> ./$domain/$foldername/html_report.html
-    [ -s ./$domain/$foldername/dorks.txt ] && echo "<tr><td><a href='./interesting.txt'>Dorks Hunter</a></td></tr>" >> ./$domain/$foldername/html_report.html
+    [ -s ./$domain/$foldername/dorks.txt ] && echo "<tr><td><a href='./dorks.txt'>Dorks Hunter</a></td></tr>" >> ./$domain/$foldername/html_report.html
     echo "</tbody></table>" >> ./$domain/$foldername/html_report.html
 
 
