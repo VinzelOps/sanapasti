@@ -291,6 +291,7 @@ get_interesting(){
   echo "Pengecekan Data Anomali Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
+#Fungsi untuk mengirimkan file zip
 zip_output(){
   dir="./$domain"
   zip_name=`date +"%Y_%m_%d-%H.%M.%S"`
@@ -331,7 +332,7 @@ notification(){
 
 transfer() { 
 	if [ $# -eq 0 ]; then 
-		echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2
+		echo "Argumen spesifik (tidak).\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2
 		return 1
 	fi
 	if tty -s; then 
@@ -356,18 +357,18 @@ transfer() {
 
 notifikasi() {
 	if [[ -z "$1" ]]; then
-		printf "\n${yellow} no file provided to send ${reset}\n"
+		printf "\n${yellow} Tidak ada file yang dikirim ${reset}\n"
 	else
 		if [[ -z "$NOTIFY_CONFIG" ]]; then
 			NOTIFY_CONFIG=~/.config/notify/provider-config.yaml
 		fi
 		if [ -n "$(find "${1}" -prune -size +8000000c)" ]; then
-    		printf '%s is larger than 8MB, sending over transfer.sh\n' "${1}"
+    		printf '%s File hasil melebihi 8 MB, mengirimkan melalui transfer.sh\n' "${1}"
 			transfer "${1}" | notify
 			return 0
 		fi
 		if grep -q '^ telegram\|^telegram\|^    telegram' $NOTIFY_CONFIG ; then
-			notification "Sending ${domain} data over Telegram" info
+			notification "Mengirimkan file zip ${domain} ke Bot Telegram" info
 			telegram_chat_id=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_chat_id\|^telegram_chat_id\|^    telegram_chat_id' | xargs | cut -d' ' -f2)
 			telegram_key=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_api_key\|^telegram_api_key\|^    telegram_apikey' | xargs | cut -d' ' -f2 )
 			curl -F document=@${1} "https://api.telegram.org/bot${telegram_key}/sendDocument?chat_id=${telegram_chat_id}" 
@@ -577,8 +578,6 @@ report()
     </div></article></div>
     </div></div></body></html>" >> ./$domain/$foldername/html_report.html
 }
-
-#Fungsi untuk mengirimkan file zip
 
 cleantemp(){
     rm -rf ./$domain/$foldername/temp.txt
