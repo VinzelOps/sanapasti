@@ -289,7 +289,7 @@ get_interesting(){
 }
 
 zip_output(){
-  dir="./$domain"
+  dir="./$domain/"
   zip_name=`date +"%Y_%m_%d-%H.%M.%S"`
   zip_name="$zip_name"_"$domain.zip"
   (cd $dir && zip -r "$zip_name" .)
@@ -297,9 +297,9 @@ zip_output(){
 echo "Mengirimkan file "${dir}/${zip_name}""
 	if [ -s "${dir}/$zip_name" ]; then
 		notifikasi "$dir/$zip_name"
-		rm -f "${dir}/$zip_name"
+#		rm -f "${dir}/$zip_name"
 	else
-		notification "No Zip file to send" warn
+		notification "Tidak ada File yang dikirim" warn
 	fi
 }
 
