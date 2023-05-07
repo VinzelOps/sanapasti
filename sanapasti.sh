@@ -366,7 +366,7 @@ notifikasi() {
 			notification "Sending ${domain} data over Telegram" info
 			telegram_chat_id=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_chat_id\|^telegram_chat_id\|^    telegram_chat_id' | xargs | cut -d' ' -f2)
 			telegram_key=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_api_key\|^telegram_api_key\|^    telegram_apikey' | xargs | cut -d' ' -f2 )
-			curl -F document=@${1} "https://api.telegram.org/bot${telegram_key}/sendDocument?chat_id=${telegram_chat_id}" 2>>"$LOGFILE" &>/dev/null
+			curl -F document=@${1} "https://api.telegram.org/bot${telegram_key}/sendDocument?chat_id=${telegram_chat_id}" 
 		fi
 		if grep -q '^ discord\|^discord\|^    discord' $NOTIFY_CONFIG ; then
 			notification "Sending ${domain} data over Discord" info
@@ -663,9 +663,6 @@ fi
   if [[ -n "$prototype" ]]; then 
     Prototype_Pollution_Scanner $domain
   fi
-
-  touch .log/${NOW}_${NOWT}.txt
-  echo "Start ${NOW} ${NOWT}" > "${LOGFILE}"
   report $domain
   echo "${green}Validasi keamanan terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
