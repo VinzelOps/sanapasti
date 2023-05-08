@@ -52,7 +52,7 @@ usage() {
     -a | --alt   : Hanya Permutasi Subdomain	
     -b | --brute : Validasi Keamanan terhadap Bruteforce Direktori
     -c | --cors  : Validasi Keamanan terhadap Cors	
-    -f | --fuzz  : Validasi Keamanan Advance	
+    -f | --fuzz  : Validasi Keamanan Full	
     -n | --nuclei: Validasi Keamanan Dasar
     -s | --ssrf  : Validasi Keamanan terhadap SSRF	
     -x | --xss   : Validasi Keamanan terhadap XSS	  
