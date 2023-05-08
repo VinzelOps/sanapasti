@@ -50,13 +50,13 @@ usage() {
   
   opsi:
     -a | --alt   : Hanya Permutasi Subdomain	
-    -b | --brute : Bruteforce Direktori
-    -c | --cors  : Fuzzing pada Cors	
-    -f | --fuzz  : CORS/SSRF/XSS/Nuclei/prototype fuzzing	
-    -n | --nuclei: Fuzzing menggunakan Nuclei	
-    -s | --ssrf  : Fuzzing Kerentanan SSRF	
-    -x | --xss   : Fuzzing Kerentanan XSS	  
-    -p | --pp    : Fuzzing kerentanan pada Polution" 1>&2; exit 1; 
+    -b | --brute : Validasi Keamanan terhadap Bruteforce Direktori
+    -c | --cors  : Validasi Keamanan terhadap Cors	
+    -f | --fuzz  : Validasi Keamanan Advance	
+    -n | --nuclei: Validasi Keamanan Dasar
+    -s | --ssrf  : Validasi Keamanan terhadap SSRF	
+    -x | --xss   : Validasi Keamanan terhadap XSS	  
+    -p | --pp    : Validasi Keamanan terhadap Prototype Pollution" 1>&2; exit 1; 
 }
 
 #Fungsi pilihan awal
