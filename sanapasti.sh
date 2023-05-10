@@ -40,7 +40,44 @@ NOTIFY="notify -silent"
 NOW=$(date +"%F")
 NOWT=$(date +"%T")
 LOGFILE="${dir}/.log/${NOW}_${NOWT}.txt"
-  
+
+#!/bin/bash
+
+check_domain() {
+  domain="$1"
+  if dig +short "$domain" >/dev/null; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+while getopts "d:" opt; do
+  case $opt in
+    d)
+      domain="$OPTARG"
+      ;;
+    *)
+      echo "Usage: ./sanapasti.sh -d domain.com"
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z "$domain" ]]; then
+  echo "Usage: ./sanapasti.sh -d domain.com"
+  exit 1
+fi
+
+if check_domain "$domain"; then
+  echo "Domain aktif: $domain"
+  # Lanjutkan tahapan selanjutnya di sini
+else
+  echo "Silahkan masukkan TLD yang benar"
+  exit 1
+fi
+
+
 #Utilitasi Penggunaan Awal
 usage() { 
   echo ""
@@ -598,6 +635,7 @@ subd=${subreport[3]}
 fi
   clear
   tagline
+  check_domain
   echo "${green}Pengintaian pada domain $domain dimulai${reset}" | notify -silent
   if [ -d "./$domain" ]
   then
