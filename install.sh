@@ -18,6 +18,14 @@ echo " ${sanapasti}                                                   by @vinzel
 ################################################### INSTALASI #################################################
 ###############################################################################################################
 
+# Menyimpan nama file saat ini
+current_script_name="$(basename "$0")"
+
+# Mengecek apakah nama file yang dijalankan adalah install.sh
+if [[ "$current_script_name" != "install.sh" ]]; then
+  echo "Salah, silahkan masukkan command dengan benar"
+  exit 1
+fi
 
 sudo apt -y update
 wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
