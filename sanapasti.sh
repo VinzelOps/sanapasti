@@ -42,39 +42,52 @@ NOWT=$(date +"%T")
 LOGFILE="${dir}/.log/${NOW}_${NOWT}.txt"
 
 #!/bin/bash
+#!/bin/bash
 
+# Fungsi untuk mengecek domain aktif atau tidak
 check_domain() {
-  domain="$1"
-  if dig +short "$domain" >/dev/null; then
-    return 0
-  else
-    return 1
-  fi
+    local domain=$1
+    local response
+
+    response=$(curl -s -o /dev/null -w '%{http_code}' "http://${domain}")
+    if [[ $response -eq 200 ]]; then
+        return 0
+    else
+        return 1
+    fi
 }
 
+# Fungsi bantuan
+print_usage() {
+    echo "Penggunaan: ./sanapasti.sh -d DOMAIN"
+}
+
+# Memproses argumen
 while getopts "d:" opt; do
-  case $opt in
-    d)
-      domain="$OPTARG"
-      ;;
-    *)
-      echo "Usage: ./sanapasti.sh -d domain.com"
-      exit 1
-      ;;
-  esac
+    case ${opt} in
+        d )
+            domain=$OPTARG
+            ;;
+        * )
+            print_usage
+            exit 1
+            ;;
+    esac
 done
 
-if [[ -z "$domain" ]]; then
-  echo "Usage: ./sanapasti.sh -d domain.com"
-  exit 1
+# Mengecek apakah domain ada atau
+if [ -z "$domain" ]; then
+    print_usage
+    exit 1
 fi
 
+# Mengecek apakah domain aktif atau tidak
 if check_domain "$domain"; then
-  echo "Domain aktif: $domain"
-  # Lanjutkan tahapan selanjutnya di sini
+    echo "Domain aktif: ${domain}"
+    # Tambahkan tahapan selanjutnya di sini
 else
-  echo "Silahkan masukkan TLD yang benar"
-  exit 1
+    echo "Silahkan masukkan TLD yang benar"
+    exit 1
 fi
 
 
