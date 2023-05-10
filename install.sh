@@ -27,6 +27,12 @@ if [[ "$current_script_name" != "install.sh" ]]; then
   exit 1
 fi
 
+if [[ $# -gt 0 ]]; then
+  echo "Salah, silahkan masukkan command dengan benar"
+  exit 1
+fi
+
+
 sudo apt -y update
 wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
 sudo python2 get-pip.py
