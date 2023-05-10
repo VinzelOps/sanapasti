@@ -691,7 +691,7 @@ fi
   tput sgr0
   exit 0 
 else
-  echo "Domain tidak aktif, coba lagi"
+  echo "Inputan (Salah)"
   exit 1
 fi
 }
