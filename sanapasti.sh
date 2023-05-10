@@ -41,6 +41,19 @@ NOW=$(date +"%F")
 NOWT=$(date +"%T")
 LOGFILE="${dir}/.log/${NOW}_${NOWT}.txt"
 
+########################
+cek_domain() {
+  local domain=$1
+  local timeout=5
+
+  if ping -c 1 -W ${timeout} ${domain} >/dev/null 2>&1; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+########################
 #Utilitasi Penggunaan Awal
 usage() { 
   echo ""
@@ -590,6 +603,9 @@ cleantemp(){
 }
 
 main(){
+#################
+if cek_domain $domain; then
+
 if [ -z "${domain}" ]; then
 domain=${subreport[1]}
 foldername=${subreport[2]}
@@ -598,7 +614,6 @@ subd=${subreport[3]}
 fi
   clear
   tagline
-  check_domain
   echo "${green}Pengintaian pada domain $domain dimulai${reset}" | notify -silent
   if [ -d "./$domain" ]
   then
@@ -674,7 +689,11 @@ fi
 #  cd ./$domain/$foldername/ &&  gowitness server -a $server_ip:30200
   stty sane
   tput sgr0
-  exit 0
+  exit 0 
+else
+  echo "Domain tidak aktif, coba lagi"
+  exit 1
+fi
 }
 
 todate=$(date +%F-%T)
