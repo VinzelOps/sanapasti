@@ -77,9 +77,9 @@ usage() {
 display_rules() {
   echo ""
   echo "Rules:"
-  echo "1. Pastikan Anda menjalankan skrip ini dengan hak akses yang sesuai."
-  echo "2. Pilih opsi yang sesuai dari argumen yang disediakan."
-  echo "3. Jangan menggabungkan opsi yang tidak kompatibel."
+  echo "1. Pastikan Anda menjalankan platform ini dengan hak akses yang sesuai."
+  echo "2. Pilih parameter yang sesuai dari argumen yang disediakan."
+  echo "3. Jangan menggabungkan parameter yang tidak kompatibel."
   echo ""
 }
 
