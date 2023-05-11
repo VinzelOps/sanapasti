@@ -59,17 +59,18 @@ usage() {
   echo ""
   echo "Panduan Memulai Platform Validasi Keamanan dan Pengintaian Otomatis"
   echo ""
-  echo -e "Cara Pakai: sudo ./sanapasti.sh -d [TLD] [opsi] 
+  echo -e "Cara Pakai: sudo ./sanapasti.sh -d [TLD] [parameter] 
   
-  opsi:
-    -a | --alt   : Hanya Permutasi Subdomain	
-    -b | --brute : Validasi Keamanan terhadap Bruteforce Direktori
-    -c | --cors  : Validasi Keamanan terhadap Cors	
-    -f | --fuzz  : Validasi Keamanan Full	
-    -n | --nuclei: Validasi Keamanan Dasar
-    -s | --ssrf  : Validasi Keamanan terhadap SSRF	
-    -x | --xss   : Validasi Keamanan terhadap XSS	  
-    -p | --pp    : Validasi Keamanan terhadap Prototype Pollution" 1>&2; exit 1; 
+  parameter:
+    -a | --alt   : Mengumpulkan Semua Subdomain
+    -b | --brute : Validasi Kerentanan terhadap Bruteforce Direktori
+    -c | --cors  : Validasi Kerentanan terhadap Cors	
+    -f | --fuzz  : Validasi Kerentanan Full	
+    -n | --nuclei: Validasi Kerentanan Dasar
+    -s | --ssrf  : Validasi Kerentanan terhadap SSRF	
+    -x | --xss   : Validasi Kerentanan terhadap XSS	  
+    -p | --pp    : Validasi Kerentanan terhadap Prototype Pollution" 1>&2; exit 1;
+    
 }
 
 #Fungsi pilihan awal
