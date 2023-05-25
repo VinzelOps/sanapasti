@@ -223,7 +223,7 @@ duration=$SECONDS
 echo "Pengecekan Sertifikat SSL Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
 }
 
-#Fungsi permutasi subdomain
+#Fungsi pencarian semua subdomain
 permutatesubdomains(){
   echo "${green}Melakukan permutasi DNS...${reset}"
   cat ./$domain/$foldername/$domain.txt | dnsgen - | sort -u | tee ./$domain/$foldername/dnsgen.txt
