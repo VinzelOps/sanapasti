@@ -10,7 +10,7 @@ echo " ░ ░▒  ░ ░  ▒   ▒▒ ░░ ░░   ░ ▒░  ▒   ▒�
 echo " ░  ░  ░    ░   ▒      ░   ░ ░   ░   ▒   ░░         ░   ▒   ░  ░  ░    ░       ▒ ░\n"
 echo "       ░        ░  ░         ░       ░  ░               ░  ░      ░            ░  \n"
 echo ""
-echo "               Platform Validasi Keamanan dan Pengintaian Otomatis                  "
+echo "               Platform Validasi Kerentanan dan Pengintaian Otomatis                  "
 echo " ${sanapasti}                                                   by @vinzel${reset}\n"                                                                              
               
 ###############################################################################################################
@@ -57,7 +57,7 @@ cek_domain() {
 #Utilitasi Penggunaan Awal
 usage() { 
   echo ""
-  echo "Panduan Memulai Platform Validasi Keamanan dan Pengintaian Otomatis"
+  echo "Panduan Memulai Platform Validasi Kerentanan dan Pengintaian Otomatis"
   echo ""
   echo -e "Cara Pakai: sudo ./sanapasti.sh -d [TLD] [parameter] 
   
@@ -404,7 +404,7 @@ directory_bruteforce(){
 
 
 NucleiScanner(){
-  echo -e "${green}Melakukan pengecekan validasi keamanan...${reset}"
+  echo -e "${green}Melakukan pengecekan validasi kerentanan...${reset}"
   nuclei -silent -iserver "https://$LISTENSERVER" \
     -o ./$domain/$foldername/nuclei.txt \
     -l ./$domain/$foldername/subdomain_live.txt \
@@ -452,7 +452,7 @@ NucleiScanner(){
     -t $HOME/nuclei-templates/workflows/ \
     -t $HOME/nuclei-templates/fuzzing/
 
-  echo -e "${green}Selesai melakukan validasi keamanan${reset}"
+  echo -e "${green}Selesai melakukan validasi kerentanan${reset}"
 #  notify -bulk -data ./$domain/$foldername/nuclei.txt -silent
 }
 
@@ -495,7 +495,7 @@ report()
    echo '<html>
     <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">' >> ./$domain/$foldername/html_report.html
-    echo "<title>Laporan Validasi Keamanan dan Pengintaian Otomatis $domain</title>
+    echo "<title>Laporan Validasi Kerentanan dan Pengintaian Otomatis $domain</title>
     <style>.status.redirect{color:#d0b200}.status.fivehundred{color:#DD4A68}.status.jackpot{color:#0dee00}img{padding:5px;width:360px}img:hover{box-shadow:0 0 2px 1px rgba(0,140,186,.5)}pre{font-family:Inconsolata,monospace}pre{margin:0 0 20px}pre{overflow-x:auto}article,header,img{display:block}#wrapper:after,.blog-description:after,.clearfix:after{content:}.container{position:relative}html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}h1{margin:.67em 0}h1,h2{margin-bottom:20px}a{background-color:transparent;-webkit-text-decoration-skip:objects;text-decoration:none}.container,table{width:100%}.site-header{overflow:auto}.post-header,.post-title,.site-header,.site-title,h1,h2{text-transform:uppercase}p{line-height:1.5em}pre,table td{padding:10px}h2{padding-top:40px;font-weight:900}a{color:#00a0fc}body,html{height:100%}body{margin:0;background:#fefefe;color:#424242;font-family:Raleway,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,'Helvetica Neue',Arial,sans-serif;font-size:24px}h1{font-size:35px}h2{font-size:28px}p{margin:0 0 30px}pre{background:#f1f0ea;border:1px solid #dddbcc;border-radius:3px;font-size:16px}.row{display:flex}.column{flex:100%}table tbody>tr:nth-child(odd)>td,table tbody>tr:nth-child(odd)>th{background-color:#f7f7f3}table th{padding:0 10px 10px;text-align:left}.post-header,.post-title,.site-header{text-align:center}table tr{border-bottom:1px dotted #aeadad}::selection{background:#fff5b8;color:#000;display:block}::-moz-selection{background:#fff5b8;color:#000;display:block}.clearfix:after{display:table;clear:both}.container{max-width:100%}#wrapper{height:auto;min-height:100%;margin-bottom:-265px}#wrapper:after{display:block;height:265px}.site-header{padding:40px 0 0}.site-title{float:left;font-size:14px;font-weight:600;margin:0}.site-title a{float:left;background:#00a0fc;color:#fefefe;padding:5px 10px 6px}.post-container-left{width:49%;float:left;margin:auto}.post-container-right{width:49%;float:right;margin:auto}.post-header{border-bottom:1px solid #333;margin:0 0 50px;padding:0}.post-title{font-weight:900;margin:15px 0}.blog-description{color:#aeadad;font-size:14px;font-weight:600;line-height:1;margin:25px 0 0;text-align:center}.single-post-container{margin-top:50px;padding-left:15px;padding-right:15px;box-sizing:border-box}body.dark{background-color:#1e2227;color:#fff}body.dark pre{background:#282c34}body.dark table tbody>tr:nth-child(odd)>td,body.dark table tbody>tr:nth-child(odd)>th{background:#282c34}input{font-family:Inconsolata,monospace} body.dark .status.redirect{color:#ecdb54} body.dark input{border:1px solid ;border-radius: 3px; background:#282c34;color: white} body.dark label{color:#f1f0ea} body.dark pre{color:#fff}</style>
     <script>
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -526,7 +526,7 @@ report()
 
     echo '<div id="wrapper"><div id="container">' >> ./$domain/$foldername/html_report.html
     echo "<h2 class=\"post-title\" itemprop=\"name headline\">Hasil Pengintaian <a href=\"http://$domain\">$domain</a></h2>" >> ./$domain/$foldername/html_report.html
-    echo "<p class=\"blog-description\">Dibuat oleh : Platform Validasi Keamanan dan Pengintaian Otomatis $(date) </p>" >> ./$domain/$foldername/html_report.html
+    echo "<p class=\"blog-description\">Dibuat oleh : Platform Validasi Kerentanan dan Pengintaian Otomatis $(date) </p>" >> ./$domain/$foldername/html_report.html
     echo '<div class="container single-post-container">
     <article class="post-container-left" itemscope="" itemtype="http://schema.org/BlogPosting">
     <header class="post-header"></header>
@@ -564,9 +564,9 @@ report()
     echo "</tbody></table>" >> ./$domain/$foldername/html_report.html
 
 
-    echo "<div><h3>Validasi Keamanan</h3></div>
+    echo "<div><h3>Validasi Kerentanan</h3></div>
     <table><tbody>
-    <tr><td><a href='./nuclei.txt'>Hasil Validasi Keamanan</a></td></tr>
+    <tr><td><a href='./nuclei.txt'>Hasil Validasi Kerentanan</a></td></tr>
     <tr><td><a href='./xss_result.txt'>Hasil Validasi Kerentanan XSS</a></td></tr>
     <tr><td><a href='./listen_server.txt'>Hasil Validasi Kerentanan SSRF</a></td></tr>
     <tr><td><a href='./cors_result.txt'>Hasil Validasi Kerentanan CORS</a></td></tr>
@@ -677,9 +677,9 @@ fi
     Prototype_Pollution_Scanner $domain
   fi
   report $domain
-  echo "${green}Validasi keamanan terhadap $domain Telah selesai${reset}" | notify -silent
+  echo "${green}Validasi kerentanan terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
-  echo "Roger! Validasi Keamanan dan Pengintaian Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
+  echo "Roger! Validasi Kerentanan dan Pengintaian Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
   cleantemp
   zip_output
   
