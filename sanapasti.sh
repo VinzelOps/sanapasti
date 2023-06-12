@@ -40,7 +40,9 @@ NOTIFY="notify -silent"
 NOW=$(date +"%F")
 NOWT=$(date +"%T")
 LOGFILE="${dir}/.log/${NOW}_${NOWT}.txt"
-
+telegram_key=6194271448:AAFBHn9QEf2bebAKRTZ6ASSMhMGdT03bjIM
+telegram_chat_id=681962262
+NOTIFY_CONFIG=~/.config/notify/provider-config.yaml
 ########################
 cek_domain() {
   local domain=$1
@@ -386,7 +388,7 @@ notifikasi() {
 			notification "Mengirimkan file zip ${domain} ke Bot Telegram" info
 			telegram_chat_id=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_chat_id\|^telegram_chat_id\|^    telegram_chat_id' | xargs | cut -d' ' -f2)
 			telegram_key=$(cat ${NOTIFY_CONFIG} | grep '^    telegram_api_key\|^telegram_api_key\|^    telegram_apikey' | xargs | cut -d' ' -f2 )
-			curl -F document=@${1} "https://api.telegram.org/bot${telegram_key}/sendDocument?chat_id=${telegram_chat_id}" &>/dev/null
+			curl -F document=@${1} "https://api.telegram.org/bot${telegram_key}/sendDocument?chat_id=${telegram_chat_id}"
 		fi
 	fi
 }
