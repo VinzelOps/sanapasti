@@ -42,7 +42,7 @@ NOWT=$(date +"%T")
 LOGFILE="${dir}/.log/${NOW}_${NOWT}.txt"
 telegram_key=6194271448:AAFBHn9QEf2bebAKRTZ6ASSMhMGdT03bjIM
 telegram_chat_id=681962262
-NOTIFY_CONFIG=~/.config/notify/provider-config.yaml
+
 ########################
 cek_domain() {
   local domain=$1
@@ -455,32 +455,32 @@ NucleiScanner(){
     -t $HOME/nuclei-templates/fuzzing/
 
   echo -e "${green}Selesai melakukan validasi kerentanan${reset}"
-#  notify -bulk -data ./$domain/$foldername/nuclei.txt -silent
+  #notify -bulk -data ./$domain/$foldername/nuclei.txt -silent
 }
 
 
 SSRF_Scanner(){
-  echo -e "${green}Mencari kerentanan SSRF ...${reset}"
+  echo -e "${green}Mencari kerentanan SSRF ...${reset}" | notify
   cat ./$domain/$foldername/gau_output.txt | gf ssrf | qsreplace https://$LISTENSERVER | httpx -silent 
-  notify -bulk -data ./$domain/$foldername/listen_server.txt -silent
+  #notify -bulk -data ./$domain/$foldername/listen_server.txt -silent
 }
 
 
 XSS_Scanner(){
-  echo -e "${green}Mencari kerentanan XSS ...${reset}"
+  echo -e "${green}Mencari kerentanan XSS ...${reset}" | notify
   cat ./$domain/$foldername/gau_output.txt | gf xss | qsreplace  -a | httpx -silent -threads 500 -mc 200 |  dalfox pipe -S | tee ./$domain/$foldername/xss_raw_result.txt
   cat ./$domain/$foldername/xss_raw_result.txt | cut -d ' ' -f2 | tee ./$domain/$foldername/xss_result.txt; notify -bulk -data ./$domain/$foldername/xss_result.txt -silent
 }
 
 
 CORS_Scanner(){
-  echo -e "${green}Mencari kerentanan CORS ...${reset}"
+  echo -e "${green}Mencari kerentanan CORS ...${reset}"  | notify
   cat ./$domain/$foldername/gau_output.txt | qsreplace  -a | httpx -silent -threads 500 -mc 200 | CorsMe - t 70 -output ./$domain/$foldername/cors_result.txt
 }
 
 
 Prototype_Pollution_Scanner(){
-  echo -e "${green}Mencari kerentanan Prototype Pollution ...${reset}"
+  echo -e "${green}Mencari kerentanan Prototype Pollution ...${reset}"  | notify
   cat ./$domain/$foldername/gau_output.txt | qsreplace  -a | httpx -silent -threads 500 -mc 200 | ppmap | tee ./$domain/$foldername/prototype_pollution_result.txt
 }
 
@@ -681,7 +681,7 @@ fi
   report $domain
   echo "${green}Validasi kerentanan terhadap $domain Telah selesai${reset}" | notify -silent
   duration=$SECONDS
-  echo "Roger! Validasi Kerentanan dan Pengintaian Selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
+  echo "Roger! Semua pengecekan telah selesai dalam : $(($duration / 60)) menit dan $(($duration % 60)) detik." | notify -silent
   cleantemp
   zip_output
   
