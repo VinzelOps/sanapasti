@@ -469,7 +469,7 @@ SSRF_Scanner(){
 XSS_Scanner(){
   echo -e "${green}Mencari kerentanan XSS ...${reset}" | notify
   cat ./$domain/$foldername/gau_output.txt | gf xss | qsreplace  -a | httpx -silent -threads 500 -mc 200 |  dalfox pipe -S | tee ./$domain/$foldername/xss_raw_result.txt
-  cat ./$domain/$foldername/xss_raw_result.txt | cut -d ' ' -f2 | tee ./$domain/$foldername/xss_result.txt; notify -bulk -data ./$domain/$foldername/xss_result.txt -silent
+  cat ./$domain/$foldername/xss_raw_result.txt | cut -d ' ' -f2 | tee ./$domain/$foldername/xss_result.txt; #notify -bulk -data ./$domain/$foldername/xss_result.txt -silent
 }
 
 
